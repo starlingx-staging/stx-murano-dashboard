@@ -43,7 +43,7 @@
 {% endblock %}
 
 {% block modal-footer %}
-    <a href='{% url 'horizon:app-catalog:packages:index' %}' class='btn btn-default cancel'>{% trans 'Cancel' %}</a>
+    <a href='{% url 'horizon:app-catalog:packages:index' %}' class='btn btn-default cancel' data-dismiss="modal">{% trans 'Cancel' %}</a>
     {% if wizard.steps.next %}
         <input type='submit' class='btn btn-primary'  value='{% trans 'Next' %}'/>
     {% else %}

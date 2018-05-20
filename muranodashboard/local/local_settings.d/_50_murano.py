@@ -18,24 +18,25 @@ DISPLAY_MURANO_REPO_URL = 'http://apps.openstack.org/#tab=murano-apps'
 # Specify a maximum number of limit packages.
 # PACKAGES_LIMIT = 100
 
+# WRS disabling this section because we dont use db for django
 # Make sure horizon has config the DATABASES, If horizon config use horizon's
 # DATABASES, if not, set it by murano.
-try:
-    from openstack_dashboard.settings import DATABASES
-    DATABASES_CONFIG = DATABASES.has_key('default')
-except ImportError:
-    DATABASES_CONFIG = False
-
+#try:
+#    from openstack_dashboard.settings import DATABASES
+#    DATABASES_CONFIG = DATABASES.has_key('default')
+#except ImportError:
+#    DATABASES_CONFIG = False
+#
 # Set default session backend from browser cookies to database to
 # avoid issues with forms during creating applications.
-if not DATABASES_CONFIG:
-    DATABASES = {
-        'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'murano-dashboard.sqlite',
-        }
-    }
-SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+#if not DATABASES_CONFIG:
+#    DATABASES = {
+#        'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': 'murano-dashboard.sqlite',
+#        }
+#    }
+#SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 try:
     from openstack_dashboard import static_settings
@@ -45,7 +46,7 @@ except ImportError:
 
 HORIZON_CONFIG['legacy_static_settings'] = LEGACY_STATIC_SETTINGS
 
-# from openstack_dashboard.settings import POLICY_FILES
+from openstack_dashboard.settings import POLICY_FILES
 POLICY_FILES.update({'murano': 'murano_policy.json',})
 
 # Applications using the encryptData/decryptData yaql functions will require

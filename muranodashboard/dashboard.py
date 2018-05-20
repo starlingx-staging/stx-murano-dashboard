@@ -26,6 +26,9 @@ class AppCatalog(horizon.Dashboard):
     default_panel = "environments"
     supports_tenants = True
 
+    def allowed(self, context):
+        return getattr(settings, "ENABLE_MURANO_TAB", False) is True
+
 try:
     horizon.base.Horizon.registered('app-catalog')
 except horizon.base.NotRegistered:
