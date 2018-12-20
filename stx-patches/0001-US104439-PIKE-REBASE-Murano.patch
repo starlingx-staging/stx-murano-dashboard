@@ -1,0 +1,53 @@
+From 641aeeb701c5c80039707c3ab193ffe3554ceaf3 Mon Sep 17 00:00:00 2001
+From: Jerry Sun <jerry.sun@windriver.com>
+Date: Thu, 30 Nov 2017 15:06:27 -0500
+Subject: [PATCH 1/3] PIKE REBASE - Murano
+
+Enable/disable horizon murano tab
+---
+ MANIFEST.in                                          | 4 ++++
+ muranodashboard/dashboard.py                         | 3 +++
+ muranodashboard/local/local_settings.d/_50_murano.py | 2 +-
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+ create mode 100644 MANIFEST.in
+
+diff --git a/MANIFEST.in b/MANIFEST.in
+new file mode 100644
+index 0000000..2eba9d4
+--- /dev/null
++++ b/MANIFEST.in
+@@ -0,0 +1,4 @@
++recursive-include muranodashboard/static *
++recursive-include muranodashboard/templates *
++recursive-include muranodashboard/locale *
++recursive-include muranodashboard/conf *
+diff --git a/muranodashboard/dashboard.py b/muranodashboard/dashboard.py
+index ec56be6..84af9e1 100644
+--- a/muranodashboard/dashboard.py
++++ b/muranodashboard/dashboard.py
+@@ -26,6 +26,9 @@ class AppCatalog(horizon.Dashboard):
+     default_panel = "environments"
+     supports_tenants = True
+ 
++    def allowed(self, context):
++        return getattr(settings, "ENABLE_MURANO_TAB", False) is True
++
+ try:
+     horizon.base.Horizon.registered('app-catalog')
+ except horizon.base.NotRegistered:
+diff --git a/muranodashboard/local/local_settings.d/_50_murano.py b/muranodashboard/local/local_settings.d/_50_murano.py
+index d4a8a98..ca677ea 100644
+--- a/muranodashboard/local/local_settings.d/_50_murano.py
++++ b/muranodashboard/local/local_settings.d/_50_murano.py
+@@ -45,7 +45,7 @@ except ImportError:
+ 
+ HORIZON_CONFIG['legacy_static_settings'] = LEGACY_STATIC_SETTINGS
+ 
+-# from openstack_dashboard.settings import POLICY_FILES
++from openstack_dashboard.settings import POLICY_FILES
+ POLICY_FILES.update({'murano': 'murano_policy.json',})
+ 
+ # Applications using the encryptData/decryptData yaql functions will require
+-- 
+2.7.4
+

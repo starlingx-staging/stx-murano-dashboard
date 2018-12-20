@@ -1,0 +1,41 @@
+From f8ffcd02bf5f93ac7a012fbaa76dacb69115fa7d Mon Sep 17 00:00:00 2001
+From: Jerry Sun <jerry.sun@windriver.com>
+Date: Thu, 30 Nov 2017 15:07:06 -0500
+Subject: [PATCH 2/3] Murano package modify cancel button broken
+
+We modified the cancel button behavior as part of the horizon autorefresh
+feature. Modifications need to be done for murano dashboard as well since
+at certain points, murano dashboard overwrites the modal dialog footers
+---
+ muranodashboard/templates/packages/_import_bundle.html  | 2 +-
+ muranodashboard/templates/packages/_modify_package.html | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/muranodashboard/templates/packages/_import_bundle.html b/muranodashboard/templates/packages/_import_bundle.html
+index 57fcecd..a47d8cd 100644
+--- a/muranodashboard/templates/packages/_import_bundle.html
++++ b/muranodashboard/templates/packages/_import_bundle.html
+@@ -43,7 +43,7 @@
+ {% endblock %}
+ 
+ {% block modal-footer %}
+-    <a href='{% url 'horizon:app-catalog:packages:index' %}' class='btn btn-default cancel'>{% trans 'Cancel' %}</a>
++    <a href='{% url 'horizon:app-catalog:packages:index' %}' class='btn btn-default cancel' data-dismiss="modal">{% trans 'Cancel' %}</a>
+     {% if wizard.steps.next %}
+         <input type='submit' class='btn btn-primary'  value='{% trans 'Next' %}'/>
+     {% else %}
+diff --git a/muranodashboard/templates/packages/_modify_package.html b/muranodashboard/templates/packages/_modify_package.html
+index 44abab8..089f348 100644
+--- a/muranodashboard/templates/packages/_modify_package.html
++++ b/muranodashboard/templates/packages/_modify_package.html
+@@ -15,6 +15,6 @@
+ {% endblock %}
+ 
+ {% block modal-footer %}
+-    <a href="{% url 'horizon:app-catalog:packages:index' %}" class="btn btn-default cancel">{% trans "Cancel" %}</a>
++    <a href="{% url 'horizon:app-catalog:packages:index' %}" class="btn btn-default cancel" data-dismiss="modal">{% trans "Cancel" %}</a>
+     <input type='submit' class='btn btn-primary' value='{% trans "Update" %}' />
+ {% endblock %}
+-- 
+2.7.4
+
